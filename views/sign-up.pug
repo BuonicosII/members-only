@@ -1,0 +1,12 @@
+extends layout
+
+block content
+  h1= title
+  form(method='POST') 
+    input#firstName(type='text', name='firstName' required)
+    input#lastName(type='text', name='lastName' required)
+    input#email(type='email', name='email' required)
+    input#password(type='password', name='password' required)
+    input#username(type='text', name='username' required)
+    input#member(type='hidden', value="false")
+    button(type='submit') Submit
