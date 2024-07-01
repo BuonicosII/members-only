@@ -1,3 +1,4 @@
+require('dotenv').config()
 const { body, validationResult } = require("express-validator")
 const asyncHandler = require("express-async-handler")
 const bcrypt = require("bcryptjs")
@@ -5,7 +6,12 @@ const User = require('../models/user')
 const passport = require("../passport-config");
 
 exports.sign_up_get = asyncHandler( async (req, res, next) => {
-    res.render("sign-up", {title: "Sign up"})})
+    if (res.locals.currentUser) {
+        res.redirect('/')
+    } else {
+    res.render("sign-up", {title: "Sign up"})
+    }
+})
 
 exports.sign_up_post = [
     body("firstName").trim().isLength({ min: 1}).escape().withMessage("Required firstName"),
@@ -46,11 +52,38 @@ exports.sign_up_post = [
 ]
 
 exports.log_in_get = asyncHandler( async (req, res, next) => {
-    res.render("log-in", {title: "Log in"})
+    if (res.locals.currentUser) {
+        res.redirect('/')
+    } else {
+        res.render("log-in", {title: "Log in"})
+    }
 })
 
 exports.log_in_post = passport.authenticate("local", {
     successRedirect: "/",
-    failureRedirect: "/log-in"
+    failureRedirect: "/"
   })
-  
+
+exports.join_get = asyncHandler( async (req, res, next) => {
+    if (res.locals.currentUser.member === true) {
+        res.redirect('/')
+    } else {
+        res.render("join", {title: "Join"})
+    }
+})
+
+exports.join_post = [
+    body("secretPassword").trim().isLength({ min: 1}).escape().withMessage("Required password").custom( (value, { req }) => { return value === process.env.MEMBERSHIP }).withMessage("Passwords don't match"),
+    asyncHandler( async (req, res, next) => {
+        const errors = validationResult(req)
+        if (!errors.isEmpty()) {
+            res.render("join", {title: "Join", errors: errors.array()})
+        } else {
+            const user = new User({
+                _id: res.locals.currentUser._id,
+                member: true
+            })
+            await User.findByIdAndUpdate(res.locals.currentUser._id, user, {})
+            res.redirect('/')
+        }
+})]

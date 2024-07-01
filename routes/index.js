@@ -15,4 +15,8 @@ router.get('/log-in', userController.log_in_get)
 
 router.post('/log-in', userController.log_in_post)
 
+router.get('/join', userController.join_get)
+
+router.post('/join', userController.join_post)
+
 module.exports = router;

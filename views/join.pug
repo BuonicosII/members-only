@@ -3,8 +3,7 @@ extends layout
 block content
   h1= title
   form(method='POST') 
-    input#username(type='text', name='username' required)
-    input#password(type='password', name='password' required)
+    input#secretPassword(type='password', name='secretPassword' required)
     button(type='submit') Submit
 
   if errors
