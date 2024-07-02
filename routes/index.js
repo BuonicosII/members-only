@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 const userController = require("../controllers/userController")
+const messageController = require("../controllers/messageController")
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -18,5 +19,9 @@ router.post('/log-in', userController.log_in_post)
 router.get('/join', userController.join_get)
 
 router.post('/join', userController.join_post)
+
+router.get('/log-out', userController.log_out)
+
+router.post('/add-message', messageController.add_message_post)
 
 module.exports = router;

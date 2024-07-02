@@ -12,3 +12,15 @@ block content
   else 
     h1= title
     p Welcome to #{title}, #{user.username}
+    a(href='/log-out') Log out
+    if (user.member === true)
+      form(method='POST', action='/add-message')
+        label(for="title") Message title
+        input#title(type='text', name='title' required)
+        label(for="text") Message text
+        input#text(type='text', name='text' required)
+        button(type='submit') Submit
+    else 
+      p Enter the secret password to become part of the club and post
+      a(href='/join')
+        button Join the club

@@ -73,7 +73,7 @@ exports.join_get = asyncHandler( async (req, res, next) => {
 })
 
 exports.join_post = [
-    body("secretPassword").trim().isLength({ min: 1}).escape().withMessage("Required password").custom( (value, { req }) => { return value === process.env.MEMBERSHIP }).withMessage("Passwords don't match"),
+    body("secretPassword").trim().isLength({ min: 1}).escape().withMessage("Wrong secret password").custom( (value, { req }) => { return value === process.env.MEMBERSHIP }).withMessage("Passwords don't match"),
     asyncHandler( async (req, res, next) => {
         const errors = validationResult(req)
         if (!errors.isEmpty()) {
@@ -86,4 +86,13 @@ exports.join_post = [
             await User.findByIdAndUpdate(res.locals.currentUser._id, user, {})
             res.redirect('/')
         }
-})]
+})];
+
+exports.log_out = (req, res, next) => {
+    req.logout((err) => {
+      if (err) {
+        return next(err);
+      }
+      res.redirect("/");
+    });
+  }
