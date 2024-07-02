@@ -2,11 +2,14 @@ var express = require('express');
 var router = express.Router();
 const userController = require("../controllers/userController")
 const messageController = require("../controllers/messageController")
+const asyncHandler = require("express-async-handler")
+const Message = require('../models/message')
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Private Club', user: req.user });
-});
+router.get('/', asyncHandler( async function(req, res, next) {
+  const messages = await Message.find().populate("user").exec()
+  res.render('index', { title: 'Private Club', user: req.user, messages: messages });
+}));
 
 router.get('/sign-up', userController.sign_up_get)
 

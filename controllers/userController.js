@@ -6,7 +6,7 @@ const User = require('../models/user')
 const passport = require("../passport-config");
 
 exports.sign_up_get = asyncHandler( async (req, res, next) => {
-    if (res.locals.currentUser) {
+    if (req.user) {
         res.redirect('/')
     } else {
     res.render("sign-up", {title: "Sign up"})
@@ -52,7 +52,7 @@ exports.sign_up_post = [
 ]
 
 exports.log_in_get = asyncHandler( async (req, res, next) => {
-    if (res.locals.currentUser) {
+    if (req.user) {
         res.redirect('/')
     } else {
         res.render("log-in", {title: "Log in"})
@@ -65,7 +65,7 @@ exports.log_in_post = passport.authenticate("local", {
   })
 
 exports.join_get = asyncHandler( async (req, res, next) => {
-    if (res.locals.currentUser.member === true) {
+    if (req.user.member === true) {
         res.redirect('/')
     } else {
         res.render("join", {title: "Join"})
@@ -80,10 +80,10 @@ exports.join_post = [
             res.render("join", {title: "Join", errors: errors.array()})
         } else {
             const user = new User({
-                _id: res.locals.currentUser._id,
+                _id: req.user._id,
                 member: true
             })
-            await User.findByIdAndUpdate(res.locals.currentUser._id, user, {})
+            await User.findByIdAndUpdate(req.user._id, user, {})
             res.redirect('/')
         }
 })];
