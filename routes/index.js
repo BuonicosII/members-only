@@ -27,4 +27,6 @@ router.get('/log-out', userController.log_out)
 
 router.post('/add-message', messageController.add_message_post)
 
+router.post('/delete-message', messageController.delete_message_post)
+
 module.exports = router;

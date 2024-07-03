@@ -22,3 +22,8 @@ exports.add_message_post = [
         }
     })
 ]
+
+exports.delete_message_post = asyncHandler( async (req, res, next) => {
+    await Message.findByIdAndDelete(req.body.messageId)
+    res.redirect('/')
+})

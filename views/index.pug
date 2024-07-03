@@ -33,3 +33,7 @@ block content
         p= message.text 
         p #{ (!user || user.member === false) ? "" : message.timeStamp}
         p #{ (!user || user.member === false) ? "Anonymous" : message.user.username}
+        if (user && user.admin === true)
+          form(method='POST', action="/delete-message")
+            input#messageId(type='hidden', name='messageId', value=message._id )
+            button(type='submit') Delete

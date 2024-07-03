@@ -38,7 +38,8 @@ exports.sign_up_post = [
                             email: req.body.email,
                             username: req.body.username,
                             password: hashedPassword,
-                            member: false
+                            member: false,
+                            admin: false
                         });
                         await user.save();
                         res.redirect("/log-in");
