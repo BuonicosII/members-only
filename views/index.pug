@@ -1,32 +1,35 @@
 extends layout
 
 block content
-  if (!user)
-    h1= title
-    p Welcome to #{title}
-    ul
-      li 
-        a(href="/sign-up") Register 
-      li 
-        a(href="/log-in") Log In
-  else 
-    h1= title
-    p Welcome to #{title}, #{user.username}
-    a(href='/log-out') Log out
-    if (user.member === true)
-      form(method='POST', action='/add-message')
-        label(for="title") Message title
-        input#title(type='text', name='title' required)
-        label(for="text") Message text
-        input#text(type='text', name='text' required)
-        button(type='submit') Submit
+  div(style="border-right: 1px solid black")
+    if (!user)
+      h1= title
+      p Welcome to #{title}
+      ul
+        li 
+          a(href="/sign-up") Register 
+        li 
+          a(href="/log-in") Log In
     else 
-      p Enter the secret password to become part of the club and post
-      a(href='/join')
-        button Join the club
-  for message in messages 
-    div 
-      p= message.title 
-      p= message.text 
-      p= message.timeStamp
-      p #{ (!user || user.member === false) ? "Anonymous" : message.user.username}
+      h1= title
+      p Welcome to #{title}, #{user.username}
+      a(href='/log-out') Log out
+      if (user.member === true)
+        form(method='POST', action='/add-message')
+          div.formFields
+            label(for="title") Message title
+            input#title(type='text', name='title' required)
+            label(for="text") Message text
+            input#text(type='text', name='text' required)
+          button(type='submit') Submit
+      else 
+        p Enter the secret password to become part of the club and post
+        a(href='/join')
+          button Join the club
+  div(style="display: flex; align-items: center; flex-direction: column-reverse")  
+    for message in messages 
+      div(style="width: 500px") 
+        p= message.title 
+        p= message.text 
+        p #{ (!user || user.member === false) ? "" : message.timeStamp}
+        p #{ (!user || user.member === false) ? "Anonymous" : message.user.username}

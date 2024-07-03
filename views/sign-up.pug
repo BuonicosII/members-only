@@ -1,24 +1,26 @@
 extends layout
 
 block content
-  h1= title
-  form(method='POST') 
-    label(for="firstName") First Name
-    input#firstName(type='text', name='firstName' required)
-    label(for="lastName") Last Name
-    input#lastName(type='text', name='lastName' required)
-    label(for="email") E-mail
-    input#email(type='email', name='email' required)
-    label(for="password") Password
-    input#password(type='password', name='password' required)
-    label(for="passwordConfirm") Confirm Password
-    input#passwordConfirm(type='password', name='passwordConfirm' required)
-    label(for="username") Username
-    input#username(type='text', name='username' required)
-    input#member(type='hidden', value="false")
-    button(type='submit') Submit
+  div
+    h1= title
+    form(method='POST')
+      div.formFields 
+        label(for="firstName") First Name
+        input#firstName(type='text', name='firstName' required)
+        label(for="lastName") Last Name
+        input#lastName(type='text', name='lastName' required)
+        label(for="email") E-mail
+        input#email(type='email', name='email' required)
+        label(for="password") Password
+        input#password(type='password', name='password' required)
+        label(for="passwordConfirm") Confirm Password
+        input#passwordConfirm(type='password', name='passwordConfirm' required)
+        label(for="username") Username
+        input#username(type='text', name='username' required)
+        input#member(type='hidden', value="false")
+      button(type='submit') Submit
 
-  if errors
-    ul
-      for error in errors
-          li!= error.msg 
+    if errors
+      ul
+        for error in errors
+            li!= error.msg 

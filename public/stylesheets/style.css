@@ -1,8 +1,19 @@
 body {
   padding: 50px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  display: grid;
+  grid-template-columns: 1fr 5fr;
 }
 
 a {
   color: #00B7FF;
+}
+
+.formFields {
+  display: flex; 
+  flex-direction: column; 
+  gap: 5px; 
+  margin-bottom: 5px;
+  margin-top: 5px;
+  max-width: 75%
 }
